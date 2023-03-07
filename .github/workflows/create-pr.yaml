@@ -1,0 +1,25 @@
+name: Create PR
+on:
+  schedule:
+    - cron: 55 * * * *
+
+jobs:
+  create_pr:
+    name: Checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Make changes
+        run:  printf "\n$(date)" >> README.md
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Create a PR
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: pull-request-${{ steps.date.outputs.date }}
+          body: >
+            This is an example PR description.
+            It's multi-line!
+          delete-branch: true
