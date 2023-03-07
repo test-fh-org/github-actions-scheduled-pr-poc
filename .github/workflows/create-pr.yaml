@@ -2,6 +2,7 @@ name: Create PR
 on:
   schedule:
     - cron: 55 * * * *
+    - workflow_dispatch:
 
 jobs:
   create_pr:
