@@ -6,7 +6,7 @@ on:
 
 jobs:
   create_pr:
-    name: Checkout
+    name: Make dummy changes and create a PR
     runs-on: ubuntu-latest
     steps:
       - name: Check out
@@ -20,6 +20,7 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           branch: pull-request-${{ steps.date.outputs.date }}
+          commit-message: Add newest date to README
           body: >
             This is an example PR description.
             It's multi-line!
