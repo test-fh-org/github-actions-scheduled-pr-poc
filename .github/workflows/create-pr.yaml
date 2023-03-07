@@ -20,7 +20,8 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           branch: pull-request-${{ steps.date.outputs.date }}
-          title: Add newest date to README
+          title: Add newest date to README (${{ steps.date.outputs.date }})
+          commit-message: Add newest date to README (${{ steps.date.outputs.date }})
           body: >
             This is an example PR description.
 
