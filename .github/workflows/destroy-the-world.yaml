@@ -1,0 +1,14 @@
+name: Destroy the world
+on:
+  schedule:
+   - cron: 55 * * * *
+  workflow_dispatch:
+
+jobs:
+  boom:
+    name: Make noise
+    runs-on: ubuntu-latest
+    steps:
+      - name: Boom
+        run:  echo "Boom"
+
