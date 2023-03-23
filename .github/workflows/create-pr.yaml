@@ -17,7 +17,7 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create a PR
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54
         with:
           branch: pull-request-${{ steps.date.outputs.date }}
           title: Add newest date to README (${{ steps.date.outputs.date }})
