@@ -1,0 +1,35 @@
+name: Create bindings expiration PRs
+on:
+  # schedule:
+  #  - cron: 0 10 * * 1-5 # 10am UTC, Monday-Friday
+  workflow_dispatch: # Ability to trigger manually
+
+jobs:
+  create_prs:
+    name: Create PRs
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        scope:
+          - international_dev
+          - us_only
+          - us_ca
+    steps:
+      - name: Check out
+        uses: actions/checkout@v3
+      - name: Remove expired bindings from configs
+        run:  echo "test - $(date +'%Y-%m-%d')"
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      - name: Create a PR
+        uses: peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54
+        with:
+          branch: remove-expired-bindings-${{ matrix.scope }}-${{ steps.date.outputs.date }}
+          title: Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})
+          commit-message: Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})
+          body: >
+            This is an automatically generated PR that intends to only remove bindings that are already expired.
+            **Please review if this is the case.**
+            More about the origin of this automation: [[DD] Improve permission granting process](https://docs.google.com/document/d/1kEwrwDNst5byWUw1QrektZhocz2HWFew9W31knOQiAY/edit#)
+          delete-branch: true
