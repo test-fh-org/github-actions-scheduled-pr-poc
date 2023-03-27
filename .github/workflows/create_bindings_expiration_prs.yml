@@ -32,7 +32,7 @@ jobs:
       - name: Create a PR
         run: |
           gh pr create \
-          --title "Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})"
+          --title "Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})" \
           --body "This is an automatically generated PR that intends to only remove bindings that are already expired.
             **Please review if this is the case.** More about the origin of this automation:
             [[DD] Improve permission granting process](https://docs.google.com/document/d/1kEwrwDNst5byWUw1QrektZhocz2HWFew9W31knOQiAY/edit#)"
