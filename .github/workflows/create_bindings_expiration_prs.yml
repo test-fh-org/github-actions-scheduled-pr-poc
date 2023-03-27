@@ -19,6 +19,9 @@ jobs:
         uses: actions/checkout@v3
       - name: Remove expired bindings from configs
         run:  echo "test - $(date +'%Y-%m-%d')" > some-file.txt
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create a branch and make a commit
         run: |
           git config --global user.email "<>"
@@ -27,9 +30,6 @@ jobs:
           git checkout -b remove-expired-bindings-${{ matrix.scope }}-${{ steps.date.outputs.date }}
           git commit -m "Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})"
           git push --set-upstream origin remove-expired-bindings-${{ matrix.scope }}-${{ steps.date.outputs.date }}
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Create a PR
         run: |
           gh pr create \
