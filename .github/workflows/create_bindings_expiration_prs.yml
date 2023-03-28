@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Test fetching a file from another private repo
         run: |
-          curl -H "Authorization: token ${GITHUB_TOKEN}" https://raw.githubusercontent.com/fathom-piotr/piotr-stuff/main/recruitment/build.gradle.kts > test.txt
+          curl -H "Authorization: token ${GITHUB_TOKEN}" -H 'Accept: application/vnd.github.v3.raw' https://api.github.com/repos/fathom-piotr/piotr-stuff/contents/main/recruitment/build.gradle.kts > test.txt
           cat test.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
