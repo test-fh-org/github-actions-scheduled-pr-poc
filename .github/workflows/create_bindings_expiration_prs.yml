@@ -17,6 +17,12 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v3
+      - name: Test fetching a file from another private repo
+        run: |
+          curl -H "Authorization: token ${GITHUB_TOKEN}" https://raw.githubusercontent.com/fathom-piotr/piotr-stuff/main/recruitment/build.gradle.kts > test.txt
+          echo test.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Remove expired bindings from configs
         run:  echo "test - $(date +'%Y-%m-%d')" > some-file.txt
       - name: Get current date
