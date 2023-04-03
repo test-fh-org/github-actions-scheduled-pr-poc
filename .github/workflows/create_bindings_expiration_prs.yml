@@ -35,7 +35,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - name: Build title
         id: build-title
-        run: echo "::set-output title=Remove expired bindings for ${{ matrix.scope.name }} scope (${{ steps.date.outputs.date }})"
+        run: echo "title=Remove expired bindings for ${{ matrix.scope.name }} scope (${{ steps.date.outputs.date }})" >> $GITHUB_OUTPUT
       - name: Create a branch and make a commit
         run: |
           git config user.name github-actions[bot]
