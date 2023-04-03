@@ -46,7 +46,7 @@ jobs:
           --body "This is an automatically generated PR that intends to only remove bindings that are already expired.
             **Please review if this is the case.** More about the origin of this automation:
             [[DD] Improve permission granting process](https://docs.google.com/document/d/1kEwrwDNst5byWUw1QrektZhocz2HWFew9W31knOQiAY/edit#)" > url-to-pr.txt
-          echo "::set-output url-to-pr=date::$(cat url-to-pr.txt)"
+          echo "::set-output name=url-to-pr=date::$(cat url-to-pr.txt)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Send Slack notification
