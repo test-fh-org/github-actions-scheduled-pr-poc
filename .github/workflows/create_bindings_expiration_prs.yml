@@ -11,9 +11,12 @@ jobs:
     strategy:
       matrix:
         scope:
-          - international_dev
-          - us_only
-          - us_ca
+          - name: international_dev
+            slack-mention: <!subteam^ST5GSN7M4>
+          - name: us_only
+            slack-mention: <!subteam^SSQGUU4RG>
+          - name: us_ca
+            slack-mention: <!subteam^SSRSBG4LT>
     steps:
       - name: Check out
         uses: actions/checkout@v3
@@ -35,14 +38,14 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add some-file.txt
-          git checkout -b remove-expired-bindings-${{ matrix.scope }}-${{ steps.date.outputs.date }}
-          git commit -m "Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})"
-          git push --set-upstream origin remove-expired-bindings-${{ matrix.scope }}-${{ steps.date.outputs.date }}
+          git checkout -b remove-expired-bindings-${{ matrix.scope.name }}-${{ steps.date.outputs.date }}
+          git commit -m "Remove expired bindings for ${{ matrix.scope.name }} scope (${{ steps.date.outputs.date }})"
+          git push --set-upstream origin remove-expired-bindings-${{ matrix.scope.name }}-${{ steps.date.outputs.date }}
       - name: Create a PR
         id: create-pr
         run: |
           gh pr create \
-          --title "Remove expired bindings for ${{ matrix.scope }} scope (${{ steps.date.outputs.date }})" \
+          --title "Remove expired bindings for ${{ matrix.scope.name }} scope (${{ steps.date.outputs.date }})" \
           --body "This is an automatically generated PR that intends to only remove bindings that are already expired.
             **Please review if this is the case.** More about the origin of this automation:
             [[DD] Improve permission granting process](https://docs.google.com/document/d/1kEwrwDNst5byWUw1QrektZhocz2HWFew9W31knOQiAY/edit#)" > url-to-pr.txt
@@ -56,5 +59,5 @@ jobs:
           curl \
           -X POST \
           -H 'Content-type: application/json' \
-          --data '{"text":"<!subteam^ST5GSN7M4> PTAL: <${{ steps.create-pr.outputs.url }}|Remove expired bindings>"}' \
+          --data '{"text":"${{ matrix.scope.slack-mention }} PTAL: <${{ steps.create-pr.outputs.url }}|Remove expired bindings>"}' \
           ${{ secrets.WEBHOOK_URL }}
