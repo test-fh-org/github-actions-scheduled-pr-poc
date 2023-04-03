@@ -57,4 +57,4 @@ jobs:
           -X POST \
           -H 'Content-type: application/json' \
           --data '{"text":"<!subteam^ST5GSN7M4> PTAL: <${{ steps.create-pr.outputs.url }}|Remove expired bindings>"}' \
-          https://hooks.slack.com/services/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
+          https://hooks.slack.com/services/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
