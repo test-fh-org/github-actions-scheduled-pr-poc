@@ -23,7 +23,7 @@ jobs:
           filter: tree:0
           fetch-depth: 0
       - name: Authenticate with the machine user
-        run: >
+        run: |
           git config --global credential.helper '!f() { echo username=krzema12; echo "password=${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}"; };f'
           git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/
           git config --global --add url.https://github.com/.insteadOf git@github.com:
