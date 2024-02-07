@@ -1,0 +1,32 @@
+name: Prod deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+
+      commit-to-deploy:
+        type: string
+        description: Hash of a commit to be deployed - its CI has to be green!
+        required: true
+
+jobs:
+
+  deploy_to_prod:
+    name: Deploy to prod
+    runs-on: ubuntu-latest
+    environment: Prod
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        with:
+          # Fetch all commits to know their hashes, but without their contents.
+          filter: tree:0
+          fetch-depth: 0
+      - name: Authenticate with the machine user
+        run: git config credential.helper '!f() { echo username=krzema12; echo "password=${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}"; };f'
+      - name: Check out the prod branch
+        run: git checkout prod
+      - name: Hard-reset the prod branch to the desired commit
+        run: git reset --hard ${{ inputs.commit-to-deploy }}
+      - name: Force-push the prod branch
+        run: git push -f
