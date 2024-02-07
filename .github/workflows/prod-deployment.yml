@@ -24,7 +24,9 @@ jobs:
           fetch-depth: 0
       - name: Authenticate with the machine user
         run: |
-          git config --global credential.helper '!f() { echo username=krzema12; echo "password=${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}"; };f'
+          git config --global credential.helper "" # disable the keychain credential helper
+          git config --global --add credential.helper store # enable the local store credential helper
+          echo "https://x-access-token:${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}@github.com" >> ~/.git-credentials # add credential to file
           git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/
           git config --global --add url.https://github.com/.insteadOf git@github.com:
       - name: Check out the prod branch
