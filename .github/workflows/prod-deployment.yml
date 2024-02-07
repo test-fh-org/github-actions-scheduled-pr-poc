@@ -16,14 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     environment: Prod
     steps:
-      - name: Authenticate with the machine user
-        run: git config credential.helper '!f() { echo username=krzema12; echo "password=${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}"; };f'
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
           # Fetch all commits to know their hashes, but without their contents.
           filter: tree:0
           fetch-depth: 0
+      - name: Authenticate with the machine user
+        run: >
+          git config --global credential.helper '!f() { echo username=krzema12; echo "password=${{ secrets.MACHINE_USER_DEPLOYMENT_TOKEN }}"; };f'
+          git config --global --replace-all url.https://github.com/.insteadOf ssh://git@github.com/
+          git config --global --add url.https://github.com/.insteadOf git@github.com:
       - name: Check out the prod branch
         run: git checkout prod
       - name: Hard-reset the prod branch to the desired commit
