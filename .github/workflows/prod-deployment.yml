@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: Prod
     steps:
+      - name: Check that the workflow is run from main branch
+        run: if [ "${{ github.ref }}" != "refs/heads/main" ]; then exit 1; fi
       - name: Check out the repo
         uses: actions/checkout@v4
         with:
